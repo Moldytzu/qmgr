@@ -59,8 +59,7 @@ def startVM(vminfo: VMInfo):
     command += f"-M type={vminfo.machineType},accel={vminfo.machineAccelerator} " # append machine info
     
     command += f"-boot order={vminfo.biosBootOrder},menu=" # boot menu and boot order
-    if(vminfo.biosBootMenu == 1): command += "on "
-    else: command += "off " 
+    command += "on " if vminfo.biosBootMenu == 1 else "off " 
 
     if(vminfo.display == 1):
         command += f"-display {vminfo.displayType} " # display type
@@ -71,8 +70,7 @@ def startVM(vminfo: VMInfo):
 
     for drive in vminfo.drives:
         command += f"-drive file={drive.file}," # drive file
-        if(drive.type == "dvd"): command += f"media=cdrom," # drive type
-        else: command += f"media=disk,"
+        command += f"media=cdrom," if drive.type == "dvd" else f"media=disk," # drive type
         command += f"if={drive.bus} " # drive bus
     
     for device in vminfo.devices: command += f"-device {device} " # devices
