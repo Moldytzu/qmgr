@@ -62,9 +62,9 @@ def startVM(vminfo: VMInfo):
     command += "on " if vminfo.biosBootMenu == 1 else "off " 
 
     if(vminfo.display == 1):
-        command += f"-display {vminfo.displayType} " # display type
+        command += f"-display {vminfo.displayType} " if not vminfo.displayFull else f"-display {vminfo.displayType},window-close=off " # display type
         command += f"-vga {vminfo.displayCard} " # video card
-        if(vminfo.displayFull): command += f"-full-screen -no-quit " # full screen
+        if(vminfo.displayFull): command += f"-full-screen " # full screen
     else:
         command += f"-nographic " # no graphics
 
