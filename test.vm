@@ -31,9 +31,9 @@
         "bootMenu": 1,
         "file": ""
     },
-    "audio": {
-        "device": "intel-hda"
-    },
+    "devices": [
+        "intel-hda"
+    ],
     "usb": {
         "enabled": 1
     },

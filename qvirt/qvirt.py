@@ -34,6 +34,7 @@ class VMInfo:
     biosBootOrder: str
     biosBootMenu: int
     biosFile: str
+    devices: list
     unknown: str
 
 def startVM(vminfo: VMInfo):
@@ -49,6 +50,7 @@ def startVM(vminfo: VMInfo):
     if(vminfo.biosBootMenu == 1): command += "on "
     else: command += "off " 
     
+    for device in vminfo.devices: command += f"-device {device} " # devices
     if(vminfo.biosFile != ""): command += f"-bios {vminfo.biosFile}" # bios file
     if(not vminfo.cpuHpet): command += f"-no-hpet " # append no hpet if hpet is disabled
     if(not vminfo.cpuAcpi): command += f"-no-acpi " # append no acpi if acpi is disabled 
@@ -82,6 +84,7 @@ def parseJSON(jsonData: object):
         "c", # boot order
         0, # boot menu
         "", # bios file
+        list(), # devices
         "", # unknown
         ) 
 
@@ -100,6 +103,7 @@ def parseJSON(jsonData: object):
     with contextlib.suppress(AttributeError): info.biosBootOrder = jsonData["bios"]["bootOrder"]
     with contextlib.suppress(AttributeError): info.biosBootMenu = jsonData["bios"]["bootMenu"]
     with contextlib.suppress(AttributeError): info.biosFile = jsonData["bios"]["file"]
+    with contextlib.suppress(AttributeError): info.devices = jsonData["devices"]
     with contextlib.suppress(AttributeError): info.unknown = jsonData["additionalOptions"]
 
     return info
