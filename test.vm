@@ -27,7 +27,7 @@
         "accelerator": "hax"
     },
     "bios": {
-        "bootFirst": "disk",
+        "bootOrder": "c",
         "bootMenu": 1,
         "file": ""
     },

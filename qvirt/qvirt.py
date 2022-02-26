@@ -31,6 +31,9 @@ class VMInfo:
     cpuModel: str
     machineType: str
     machineAccelerator: str
+    biosBootOrder: str
+    biosBootMenu: int
+    biosFile: str
     unknown: str
 
 def startVM(vminfo: VMInfo):
@@ -41,6 +44,12 @@ def startVM(vminfo: VMInfo):
     command += f"-smp maxcpus={vminfo.cpuCores * vminfo.cpuCount * vminfo.cpuThreads},sockets={vminfo.cpuCount},cores={vminfo.cpuCores},threads={vminfo.cpuThreads} " # append cpu topology
     command += f"-cpu {vminfo.cpuModel} " # append cpu model
     command += f"-M type={vminfo.machineType},accel={vminfo.machineAccelerator} " # append machine info
+    
+    command += f"-boot order={vminfo.biosBootOrder},menu=" # boot menu and boot order
+    if(vminfo.biosBootMenu == 1): command += "on "
+    else: command += "off " 
+    
+    if(vminfo.biosFile != ""): command += f"-bios {vminfo.biosFile}" # bios file
     if(not vminfo.cpuHpet): command += f"-no-hpet " # append no hpet if hpet is disabled
     if(not vminfo.cpuAcpi): command += f"-no-acpi " # append no acpi if acpi is disabled 
     command += f"{vminfo.unknown}" # append additional/unknown options
@@ -70,6 +79,9 @@ def parseJSON(jsonData: object):
         "base", # cpu model
         "pc", # machine type
         "tcg", # machine accelerator
+        "c", # boot order
+        0, # boot menu
+        "", # bios file
         "", # unknown
         ) 
 
@@ -85,6 +97,9 @@ def parseJSON(jsonData: object):
     with contextlib.suppress(AttributeError): info.cpuAcpi = jsonData["cpu"]["acpi"]
     with contextlib.suppress(AttributeError): info.machineType = jsonData["machine"]["type"]
     with contextlib.suppress(AttributeError): info.machineAccelerator = jsonData["machine"]["accelerator"]
+    with contextlib.suppress(AttributeError): info.biosBootOrder = jsonData["bios"]["bootOrder"]
+    with contextlib.suppress(AttributeError): info.biosBootMenu = jsonData["bios"]["bootMenu"]
+    with contextlib.suppress(AttributeError): info.biosFile = jsonData["bios"]["file"]
     with contextlib.suppress(AttributeError): info.unknown = jsonData["additionalOptions"]
 
     return info
