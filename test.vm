@@ -16,12 +16,12 @@
         "hd": {
             "type": "harddisk",
             "file": "test.qcow2",
-            "bus": "scsi"
+            "bus": "ide"
         },
         "cd": {
             "type": "dvd",
             "file": "test.iso",
-            "bus": "scsi"
+            "bus": "ide"
         }
     },
     "machine": {

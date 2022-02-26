@@ -16,8 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
-from cmath import inf
-import sys,json,dataclasses,contextlib
+import sys,json,dataclasses,contextlib,subprocess
 
 @dataclasses.dataclass
 class Drive:
@@ -80,7 +79,8 @@ def startVM(vminfo: VMInfo):
     if(not vminfo.cpuHpet): command += f"-no-hpet " # append no hpet if hpet is disabled
     if(not vminfo.cpuAcpi): command += f"-no-acpi " # append no acpi if acpi is disabled 
     command += f"{vminfo.unknown}" # append additional/unknown options
-    print(command)
+    
+    subprocess.run(command, shell=True, check=True)
 
 def checkSignature(jsonData: object):
     if("signature" in jsonData):
