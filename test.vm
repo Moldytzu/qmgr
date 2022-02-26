@@ -42,8 +42,7 @@
     "display": {
         "enabled": 1,
         "type": "sdl",
-        "card": "vmware",
-        "resolution": "1280x720"
+        "card": "vmware"
     },
     "additionalOptions": "",
     "signature": "qvirt"

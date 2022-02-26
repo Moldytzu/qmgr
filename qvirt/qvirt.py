@@ -46,7 +46,6 @@ class VMInfo:
     display: int
     displayType: str
     displayCard: str
-    displayResolution: str
     drives: list
     unknown: str
 
@@ -66,7 +65,6 @@ def startVM(vminfo: VMInfo):
     if(vminfo.display == 1):
         command += f"-display {vminfo.displayType} " # display type
         command += f"-vga {vminfo.displayCard} " # video card
-        command += f"-g {vminfo.displayResolution} " # video resolution
     else:
         command += f"-nographic " # no graphics
 
@@ -116,7 +114,6 @@ def parseJSON(jsonData: object):
         1, # display
         "sdl", # display type
         "std", # display card
-        "640x480", # display resolution
         list(), # drives
         "", # unknown
         ) 
@@ -141,7 +138,6 @@ def parseJSON(jsonData: object):
     with contextlib.suppress(KeyError): info.display = jsonData["display"]["enabled"]
     with contextlib.suppress(KeyError): info.displayType = jsonData["display"]["type"]
     with contextlib.suppress(KeyError): info.displayCard = jsonData["display"]["card"]
-    with contextlib.suppress(KeyError): info.displayResolution = jsonData["display"]["resolution"]
     with contextlib.suppress(KeyError): info.unknown = jsonData["additionalOptions"]
 
     with contextlib.suppress(KeyError):
