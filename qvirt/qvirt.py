@@ -29,6 +29,8 @@ class VMInfo:
     cpuAcpi: int
     cpuArch: str
     cpuModel: str
+    machineType: str
+    machineAccelerator: str
     unknown: str
 
 def startVM(vminfo: VMInfo):
@@ -38,6 +40,7 @@ def startVM(vminfo: VMInfo):
     command += f"-m {vminfo.memoryCapacity} " # append memory information
     command += f"-smp maxcpus={vminfo.cpuCores * vminfo.cpuCount * vminfo.cpuThreads},sockets={vminfo.cpuCount},cores={vminfo.cpuCores},threads={vminfo.cpuThreads} " # append cpu topology
     command += f"-cpu {vminfo.cpuModel} " # append cpu model
+    command += f"-M type={vminfo.machineType},accel={vminfo.machineAccelerator} " # append machine info
     if(not vminfo.cpuHpet): command += f"-no-hpet " # append no hpet if hpet is disabled
     if(not vminfo.cpuAcpi): command += f"-no-acpi " # append no acpi if acpi is disabled 
     command += f"{vminfo.unknown}" # append additional/unknown options
@@ -65,6 +68,8 @@ def parseJSON(jsonData: object):
         1, # cpu acpi
         "x86_64", # cpu arch
         "base", # cpu model
+        "pc", # machine type
+        "tcg", # machine accelerator
         "", # unknown
         ) 
 
@@ -78,6 +83,8 @@ def parseJSON(jsonData: object):
     with contextlib.suppress(AttributeError): info.cpuModel = jsonData["cpu"]["model"]
     with contextlib.suppress(AttributeError): info.cpuHpet = jsonData["cpu"]["hpet"]
     with contextlib.suppress(AttributeError): info.cpuAcpi = jsonData["cpu"]["acpi"]
+    with contextlib.suppress(AttributeError): info.machineType = jsonData["machine"]["type"]
+    with contextlib.suppress(AttributeError): info.machineAccelerator = jsonData["machine"]["accelerator"]
     with contextlib.suppress(AttributeError): info.unknown = jsonData["additionalOptions"]
 
     return info
