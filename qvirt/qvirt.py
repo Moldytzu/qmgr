@@ -85,10 +85,7 @@ def startVM(vminfo: VMInfo):
     subprocess.run(command, shell=True, check=True)
 
 def checkSignature(jsonData: object):
-    if("signature" in jsonData):
-        return jsonData["signature"] == "qvirt" # determine if the signature is qvirt
-    else:
-        return False
+    return ("signature" in jsonData) and (jsonData["signature"] == "qvirt") # determine if the signature is qvirt
 
 def getJSON(filename: str):
     file = open(filename,"r") # open file as read-only
