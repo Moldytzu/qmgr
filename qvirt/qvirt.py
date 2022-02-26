@@ -43,7 +43,7 @@ class VMInfo:
     unknown: str
 
 def startVM(vminfo: VMInfo):
-    print(f"Starting {vminfo.name}") # print starting message
+    print(f"Starting \"{vminfo.name}\" virtual machine") # print starting message
 
     command = f"qemu-system-{vminfo.cpuArch} " # create the command we will launch
     command += f"-m {vminfo.memoryCapacity} " # append memory information
@@ -107,27 +107,27 @@ def parseJSON(jsonData: object):
         ) 
 
     # parse all json data into a class
-    with contextlib.suppress(AttributeError): info.name = jsonData["name"]
-    with contextlib.suppress(AttributeError): info.memoryCapacity = jsonData["memory"]["capacity"]
-    with contextlib.suppress(AttributeError): info.cpuCount = jsonData["cpu"]["count"]
-    with contextlib.suppress(AttributeError): info.cpuCores = jsonData["cpu"]["cores"]
-    with contextlib.suppress(AttributeError): info.cpuThreads = jsonData["cpu"]["threads"]
-    with contextlib.suppress(AttributeError): info.cpuArch = jsonData["cpu"]["arch"]
-    with contextlib.suppress(AttributeError): info.cpuModel = jsonData["cpu"]["model"]
-    with contextlib.suppress(AttributeError): info.cpuHpet = jsonData["cpu"]["hpet"]
-    with contextlib.suppress(AttributeError): info.cpuAcpi = jsonData["cpu"]["acpi"]
-    with contextlib.suppress(AttributeError): info.machineType = jsonData["machine"]["type"]
-    with contextlib.suppress(AttributeError): info.machineAccelerator = jsonData["machine"]["accelerator"]
-    with contextlib.suppress(AttributeError): info.biosBootOrder = jsonData["bios"]["bootOrder"]
-    with contextlib.suppress(AttributeError): info.biosBootMenu = jsonData["bios"]["bootMenu"]
-    with contextlib.suppress(AttributeError): info.biosFile = jsonData["bios"]["file"]
-    with contextlib.suppress(AttributeError): info.devices = jsonData["devices"]
-    with contextlib.suppress(AttributeError): info.usb = jsonData["usb"]["enabled"]
-    with contextlib.suppress(AttributeError): info.display = jsonData["display"]["enabled"]
-    with contextlib.suppress(AttributeError): info.displayType = jsonData["display"]["type"]
-    with contextlib.suppress(AttributeError): info.displayCard = jsonData["display"]["card"]
-    with contextlib.suppress(AttributeError): info.displayResolution = jsonData["display"]["resolution"]
-    with contextlib.suppress(AttributeError): info.unknown = jsonData["additionalOptions"]
+    with contextlib.suppress(KeyError): info.name = jsonData["name"]
+    with contextlib.suppress(KeyError): info.memoryCapacity = jsonData["memory"]["capacity"]
+    with contextlib.suppress(KeyError): info.cpuCount = jsonData["cpu"]["count"]
+    with contextlib.suppress(KeyError): info.cpuCores = jsonData["cpu"]["cores"]
+    with contextlib.suppress(KeyError): info.cpuThreads = jsonData["cpu"]["threads"]
+    with contextlib.suppress(KeyError): info.cpuArch = jsonData["cpu"]["arch"]
+    with contextlib.suppress(KeyError): info.cpuModel = jsonData["cpu"]["model"]
+    with contextlib.suppress(KeyError): info.cpuHpet = jsonData["cpu"]["hpet"]
+    with contextlib.suppress(KeyError): info.cpuAcpi = jsonData["cpu"]["acpi"]
+    with contextlib.suppress(KeyError): info.machineType = jsonData["machine"]["type"]
+    with contextlib.suppress(KeyError): info.machineAccelerator = jsonData["machine"]["accelerator"]
+    with contextlib.suppress(KeyError): info.biosBootOrder = jsonData["bios"]["bootOrder"]
+    with contextlib.suppress(KeyError): info.biosBootMenu = jsonData["bios"]["bootMenu"]
+    with contextlib.suppress(KeyError): info.biosFile = jsonData["bios"]["file"]
+    with contextlib.suppress(KeyError): info.devices = jsonData["devices"]
+    with contextlib.suppress(KeyError): info.usb = jsonData["usb"]["enabled"]
+    with contextlib.suppress(KeyError): info.display = jsonData["display"]["enabled"]
+    with contextlib.suppress(KeyError): info.displayType = jsonData["display"]["type"]
+    with contextlib.suppress(KeyError): info.displayCard = jsonData["display"]["card"]
+    with contextlib.suppress(KeyError): info.displayResolution = jsonData["display"]["resolution"]
+    with contextlib.suppress(KeyError): info.unknown = jsonData["additionalOptions"]
 
     return info
 
