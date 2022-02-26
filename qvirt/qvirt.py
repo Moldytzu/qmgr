@@ -29,11 +29,18 @@ class VMInfo:
     cpuAcpi: int
     cpuArch: str
     cpuModel: str
+    unknown: str
 
 def startVM(vminfo: VMInfo):
     print(f"Starting {vminfo.name}") # print starting message
 
-    command = f"qemu-system-{vminfo.cpuArch}"
+    command = f"qemu-system-{vminfo.cpuArch} " # create the command we will launch
+    command += f"-m {vminfo.memoryCapacity} " # append memory information
+    command += f"-smp maxcpus={vminfo.cpuCores * vminfo.cpuCount * vminfo.cpuThreads},sockets={vminfo.cpuCount},cores={vminfo.cpuCores},threads={vminfo.cpuThreads} " # append cpu topology
+    command += f"-cpu {vminfo.cpuModel} " # append cpu model
+    if(not vminfo.cpuHpet): command += f"-no-hpet " # append no hpet if hpet is disabled
+    if(not vminfo.cpuAcpi): command += f"-no-acpi " # append no acpi if acpi is disabled 
+    command += f"{vminfo.unknown}" # append additional/unknown options
     print(command)
 
 def checkSignature(jsonData: object):
@@ -58,6 +65,7 @@ def parseJSON(jsonData: object):
         1, # cpu acpi
         "x86_64", # cpu arch
         "base", # cpu model
+        "", # unknown
         ) 
 
     # parse all json data into a class
@@ -70,6 +78,7 @@ def parseJSON(jsonData: object):
     with contextlib.suppress(AttributeError): info.cpuModel = jsonData["cpu"]["model"]
     with contextlib.suppress(AttributeError): info.cpuHpet = jsonData["cpu"]["hpet"]
     with contextlib.suppress(AttributeError): info.cpuAcpi = jsonData["cpu"]["acpi"]
+    with contextlib.suppress(AttributeError): info.unknown = jsonData["additionalOptions"]
 
     return info
 
