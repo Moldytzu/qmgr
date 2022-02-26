@@ -80,6 +80,8 @@ def startVM(vminfo: VMInfo):
     if(not vminfo.cpuAcpi): command += f"-no-acpi " # append no acpi if acpi is disabled 
     command += f"{vminfo.unknown}" # append additional/unknown options
     
+    print(f"Running command: {command}")
+
     subprocess.run(command, shell=True, check=True)
 
 def checkSignature(jsonData: object):
