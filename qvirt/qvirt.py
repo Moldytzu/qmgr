@@ -16,20 +16,33 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
-import sys,json
+import sys,json,dataclasses
+
+@dataclasses.dataclass
+class VMInfo:
+    name: str
+
+def startVM(vminfo: VMInfo):
+    print(f"Starting {vminfo.name}")
 
 def checkSignature(jsonData: object):
-    passed = False
-    try:
-        passed = jsonData["signature"] == "qvirt" # determine if the signature is qvirt
-    except:
-        passed = False # return false on error
-    return passed
+    if("signature" in jsonData):
+        return jsonData["signature"] == "qvirt" # determine if the signature is qvirt
+    else:
+        return False
 
 def getJSON(filename: str):
     file = open(filename,"r") # open file as read-only
     data = json.loads(file.read()) # read as json data
     return data # return it
+
+def parseJSON(jsonData: object):
+    info = VMInfo("Untitled")
+
+    # parse all json data into a class
+    if("name" in jsonData): info.name = jsonData["name"]
+
+    return info
 
 def virtmain(arguments: list[str]):
     if(len(arguments) < 2 or len(arguments) > 2):
@@ -38,11 +51,9 @@ def virtmain(arguments: list[str]):
     configFile = arguments[1] # config file path is the first argument
     jsonData = getJSON(configFile) # get json object
 
-    if(checkSignature(jsonData)):
-        print(jsonData)
-    else:
-        print("Signature check failed!")
+    assert checkSignature(jsonData), "failed to check signature"
 
-
+    startVM(parseJSON(jsonData))
+    
 if __name__ == "__main__":
     virtmain(sys.argv)
