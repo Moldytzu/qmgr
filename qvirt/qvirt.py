@@ -16,7 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
-import sys,json,dataclasses,contextlib,subprocess
+import sys,json,dataclasses,subprocess
+from contextlib import suppress
 
 @dataclasses.dataclass
 class Drive:
@@ -57,7 +58,6 @@ def startVM(vminfo: VMInfo):
     command += f"-smp maxcpus={vminfo.cpuCores * vminfo.cpuCount * vminfo.cpuThreads},sockets={vminfo.cpuCount},cores={vminfo.cpuCores},threads={vminfo.cpuThreads} " # append cpu topology
     command += f"-cpu {vminfo.cpuModel} " # append cpu model
     command += f"-M type={vminfo.machineType},accel={vminfo.machineAccelerator} " # append machine info
-    
     command += f"-boot order={vminfo.biosBootOrder},menu=" # boot menu and boot order
     command += "on " if vminfo.biosBootMenu == 1 else "off " 
 
@@ -89,8 +89,7 @@ def checkSignature(jsonData: object):
 
 def getJSON(filename: str):
     file = open(filename,"r") # open file as read-only
-    data = json.loads(file.read()) # read as json data
-    return data # return it
+    return json.loads(file.read()) # read as json data
 
 def parseJSON(jsonData: object):
     info = VMInfo( # specify default information
@@ -119,46 +118,41 @@ def parseJSON(jsonData: object):
         ) 
 
     # parse all json data into a class
-    with contextlib.suppress(KeyError): info.name = jsonData["name"]
-    with contextlib.suppress(KeyError): info.memoryCapacity = jsonData["memory"]["capacity"]
-    with contextlib.suppress(KeyError): info.cpuCount = jsonData["cpu"]["count"]
-    with contextlib.suppress(KeyError): info.cpuCores = jsonData["cpu"]["cores"]
-    with contextlib.suppress(KeyError): info.cpuThreads = jsonData["cpu"]["threads"]
-    with contextlib.suppress(KeyError): info.cpuArch = jsonData["cpu"]["arch"]
-    with contextlib.suppress(KeyError): info.cpuModel = jsonData["cpu"]["model"]
-    with contextlib.suppress(KeyError): info.cpuHpet = jsonData["cpu"]["hpet"]
-    with contextlib.suppress(KeyError): info.cpuAcpi = jsonData["cpu"]["acpi"]
-    with contextlib.suppress(KeyError): info.machineType = jsonData["machine"]["type"]
-    with contextlib.suppress(KeyError): info.machineAccelerator = jsonData["machine"]["accelerator"]
-    with contextlib.suppress(KeyError): info.biosBootOrder = jsonData["bios"]["bootOrder"]
-    with contextlib.suppress(KeyError): info.biosBootMenu = jsonData["bios"]["bootMenu"]
-    with contextlib.suppress(KeyError): info.biosFile = jsonData["bios"]["file"]
-    with contextlib.suppress(KeyError): info.devices = jsonData["devices"]
-    with contextlib.suppress(KeyError): info.usb = jsonData["usb"]["enabled"]
-    with contextlib.suppress(KeyError): info.display = jsonData["display"]["enabled"]
-    with contextlib.suppress(KeyError): info.displayFull = jsonData["display"]["fullscreen"]
-    with contextlib.suppress(KeyError): info.displayType = jsonData["display"]["type"]
-    with contextlib.suppress(KeyError): info.displayCard = jsonData["display"]["card"]
-    with contextlib.suppress(KeyError): info.unknown = jsonData["additionalOptions"]
+    with suppress(KeyError): info.name = jsonData["name"]
+    with suppress(KeyError): info.memoryCapacity = jsonData["memory"]["capacity"]
+    with suppress(KeyError): info.cpuCount = jsonData["cpu"]["count"]
+    with suppress(KeyError): info.cpuCores = jsonData["cpu"]["cores"]
+    with suppress(KeyError): info.cpuThreads = jsonData["cpu"]["threads"]
+    with suppress(KeyError): info.cpuArch = jsonData["cpu"]["arch"]
+    with suppress(KeyError): info.cpuModel = jsonData["cpu"]["model"]
+    with suppress(KeyError): info.cpuHpet = jsonData["cpu"]["hpet"]
+    with suppress(KeyError): info.cpuAcpi = jsonData["cpu"]["acpi"]
+    with suppress(KeyError): info.machineType = jsonData["machine"]["type"]
+    with suppress(KeyError): info.machineAccelerator = jsonData["machine"]["accelerator"]
+    with suppress(KeyError): info.biosBootOrder = jsonData["bios"]["bootOrder"]
+    with suppress(KeyError): info.biosBootMenu = jsonData["bios"]["bootMenu"]
+    with suppress(KeyError): info.biosFile = jsonData["bios"]["file"]
+    with suppress(KeyError): info.devices = jsonData["devices"]
+    with suppress(KeyError): info.usb = jsonData["usb"]["enabled"]
+    with suppress(KeyError): info.display = jsonData["display"]["enabled"]
+    with suppress(KeyError): info.displayFull = jsonData["display"]["fullscreen"]
+    with suppress(KeyError): info.displayType = jsonData["display"]["type"]
+    with suppress(KeyError): info.displayCard = jsonData["display"]["card"]
+    with suppress(KeyError): info.unknown = jsonData["additionalOptions"]
 
-    with contextlib.suppress(KeyError):
+    with suppress(KeyError):
         drives = jsonData["drives"]
         info.drives = list()
         for drive in drives:
-            with contextlib.suppress(AttributeError):
+            with suppress(AttributeError):
                 info.drives.append(Drive(drives[drive]["type"],drives[drive]["file"],drives[drive]["bus"]))
 
     return info
 
 def virtmain(arguments: list[str]):
-    if(len(arguments) < 2 or len(arguments) > 2):
-        print(f"Usage: python3 {arguments[0]} <path to vm config>") # display usage if there isn't any vm config supplied or if there are more options
-    
-    configFile = arguments[1] # config file path is the first argument
-    jsonData = getJSON(configFile) # get json object
-
+    assert len(arguments) != 3, f"Usage: python3 {arguments[0]} <path to vm config>" # display usage if there isn't any vm config supplied or if there are more options
+    jsonData = getJSON(arguments[1]) # config file path is the first argument
     assert checkSignature(jsonData), "failed to check signature"
-
     startVM(parseJSON(jsonData))
     
 if __name__ == "__main__":
