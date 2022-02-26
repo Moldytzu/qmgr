@@ -15,11 +15,13 @@
     "drives": {
         "hd": {
             "type": "harddisk",
-            "file": "test.qcow2"
+            "file": "test.qcow2",
+            "bus": "scsi"
         },
         "cd": {
             "type": "dvd",
-            "file": "test.iso"
+            "file": "test.iso",
+            "bus": "scsi"
         }
     },
     "machine": {

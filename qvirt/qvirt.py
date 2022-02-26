@@ -16,7 +16,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
+from cmath import inf
 import sys,json,dataclasses,contextlib
+
+@dataclasses.dataclass
+class Drive:
+    type: str
+    file: str
+    bus: str
 
 @dataclasses.dataclass
 class VMInfo:
@@ -40,6 +47,7 @@ class VMInfo:
     displayType: str
     displayCard: str
     displayResolution: str
+    drives: list
     unknown: str
 
 def startVM(vminfo: VMInfo):
@@ -61,6 +69,12 @@ def startVM(vminfo: VMInfo):
         command += f"-g {vminfo.displayResolution} " # video resolution
     else:
         command += f"-nographic " # no graphics
+
+    for drive in vminfo.drives:
+        command += f"-drive file={drive.file}," # drive file
+        if(drive.type == "dvd"): command += f"media=cdrom," # drive type
+        else: command += f"media=disk,"
+        command += f"if={drive.bus} " # drive bus
     
     for device in vminfo.devices: command += f"-device {device} " # devices
     if(vminfo.usb == 1): command += f"-usb " # usb
@@ -103,6 +117,7 @@ def parseJSON(jsonData: object):
         "sdl", # display type
         "std", # display card
         "640x480", # display resolution
+        list(), # drives
         "", # unknown
         ) 
 
@@ -128,6 +143,13 @@ def parseJSON(jsonData: object):
     with contextlib.suppress(KeyError): info.displayCard = jsonData["display"]["card"]
     with contextlib.suppress(KeyError): info.displayResolution = jsonData["display"]["resolution"]
     with contextlib.suppress(KeyError): info.unknown = jsonData["additionalOptions"]
+
+    with contextlib.suppress(KeyError):
+        drives = jsonData["drives"]
+        info.drives = list()
+        for drive in drives:
+            with contextlib.suppress(AttributeError):
+                info.drives.append(Drive(drives[drive]["type"],drives[drive]["file"],drives[drive]["bus"]))
 
     return info
 
