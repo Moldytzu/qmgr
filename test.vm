@@ -1,7 +1,7 @@
 {
     "name": "Test virtual machine",
     "memory": {
-        "capacity":"8G",
+        "capacity":"8G"
     },
     "cpu": {
         "cpus":1,
@@ -10,39 +10,39 @@
         "arch":"x86_64",
         "model":"qemu64",
         "hpet":1,
-        "acpi":1,
+        "acpi":1
     },
     "drives": {
         "hd": {
             "type": "harddisk",
-            "file": "test.qcow2",
+            "file": "test.qcow2"
         },
         "cd": {
             "type": "dvd",
-            "file": "test.iso",
+            "file": "test.iso"
         }
     },
     "machine": {
         "type": "q35",
-        "accelerator": "hax",
+        "accelerator": "hax"
     },
     "bios": {
         "bootFirst": "disk",
         "bootMenu": 1,
-        "file": "",
+        "file": ""
     },
     "audio": {
-        "device": "intel-hda",
+        "device": "intel-hda"
     },
     "usb": {
-        "enabled": 1,
+        "enabled": 1
     },
     "display": {
         "enabled": 1,
         "type": "sdl",
         "card": "vmware",
-        "resolution": "1280x720",
+        "resolution": "1280x720"
     },
     "additionalOptions": "",
-    "signature": "qvirt",
+    "signature": "qvirt"
 }
