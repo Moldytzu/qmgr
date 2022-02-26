@@ -149,11 +149,8 @@ def parseJSON(jsonData: object):
 
     return info
 
-def virtmain(arguments: list[str]):
-    assert len(arguments) != 3, f"Usage: python3 {arguments[0]} <path to vm config>" # display usage if there isn't any vm config supplied or if there are more options
-    jsonData = getJSON(arguments[1]) # config file path is the first argument
+if __name__ == "__main__":
+    assert len(sys.argv) != 3, f"Usage: python3 {sys.argv[0]} <path to vm config>" # display usage if there isn't any vm config supplied or if there are more options
+    jsonData = getJSON(sys.argv[1]) # config file path is the first argument
     assert checkSignature(jsonData), "failed to check signature"
     startVM(parseJSON(jsonData))
-    
-if __name__ == "__main__":
-    virtmain(sys.argv)
