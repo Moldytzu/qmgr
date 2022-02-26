@@ -16,8 +16,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
-def virtmain():
-    print("qvirt")
+import sys
+
+def virtmain(arguments: list[str]):
+    for arg in arguments[1:]: # start handling arguments after the first index (0 or the script's location)
+        print(arg)
 
 if __name__ == "__main__":
-    virtmain()
+    virtmain(sys.argv)
