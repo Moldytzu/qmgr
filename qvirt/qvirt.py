@@ -36,6 +36,10 @@ class VMInfo:
     biosFile: str
     devices: list
     usb: int
+    display: int
+    displayType: str
+    displayCard: str
+    displayResolution: str
     unknown: str
 
 def startVM(vminfo: VMInfo):
@@ -50,10 +54,17 @@ def startVM(vminfo: VMInfo):
     command += f"-boot order={vminfo.biosBootOrder},menu=" # boot menu and boot order
     if(vminfo.biosBootMenu == 1): command += "on "
     else: command += "off " 
+
+    if(vminfo.display == 1):
+        command += f"-display {vminfo.displayType} " # display type
+        command += f"-vga {vminfo.displayCard} " # video card
+        command += f"-g {vminfo.displayResolution} " # video resolution
+    else:
+        command += f"-nographic " # no graphics
     
     for device in vminfo.devices: command += f"-device {device} " # devices
-    if(vminfo.usb == 1): command += f"-usb" # usb
-    if(vminfo.biosFile != ""): command += f"-bios {vminfo.biosFile}" # bios file
+    if(vminfo.usb == 1): command += f"-usb " # usb
+    if(vminfo.biosFile != ""): command += f"-bios {vminfo.biosFile} " # bios file
     if(not vminfo.cpuHpet): command += f"-no-hpet " # append no hpet if hpet is disabled
     if(not vminfo.cpuAcpi): command += f"-no-acpi " # append no acpi if acpi is disabled 
     command += f"{vminfo.unknown}" # append additional/unknown options
@@ -88,6 +99,10 @@ def parseJSON(jsonData: object):
         "", # bios file
         list(), # devices
         0, # usb
+        1, # display
+        "sdl", # display type
+        "std", # display card
+        "640x480", # display resolution
         "", # unknown
         ) 
 
@@ -108,6 +123,10 @@ def parseJSON(jsonData: object):
     with contextlib.suppress(AttributeError): info.biosFile = jsonData["bios"]["file"]
     with contextlib.suppress(AttributeError): info.devices = jsonData["devices"]
     with contextlib.suppress(AttributeError): info.usb = jsonData["usb"]["enabled"]
+    with contextlib.suppress(AttributeError): info.display = jsonData["display"]["enabled"]
+    with contextlib.suppress(AttributeError): info.displayType = jsonData["display"]["type"]
+    with contextlib.suppress(AttributeError): info.displayCard = jsonData["display"]["card"]
+    with contextlib.suppress(AttributeError): info.displayResolution = jsonData["display"]["resolution"]
     with contextlib.suppress(AttributeError): info.unknown = jsonData["additionalOptions"]
 
     return info
