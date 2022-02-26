@@ -42,7 +42,8 @@
     "display": {
         "enabled": 1,
         "type": "sdl",
-        "card": "vmware"
+        "card": "vmware",
+        "fullscreen": 0
     },
     "additionalOptions": "",
     "signature": "qvirt"

@@ -43,6 +43,7 @@ class VMInfo:
     devices: list
     usb: int
     display: int
+    displayFull: int
     displayType: str
     displayCard: str
     drives: list
@@ -64,6 +65,7 @@ def startVM(vminfo: VMInfo):
     if(vminfo.display == 1):
         command += f"-display {vminfo.displayType} " # display type
         command += f"-vga {vminfo.displayCard} " # video card
+        if(vminfo.displayFull): command += f"-full-screen " # full screen
     else:
         command += f"-nographic " # no graphics
 
@@ -114,6 +116,7 @@ def parseJSON(jsonData: object):
         list(), # devices
         0, # usb
         1, # display
+        0, # fullscreen
         "sdl", # display type
         "std", # display card
         list(), # drives
@@ -138,6 +141,7 @@ def parseJSON(jsonData: object):
     with contextlib.suppress(KeyError): info.devices = jsonData["devices"]
     with contextlib.suppress(KeyError): info.usb = jsonData["usb"]["enabled"]
     with contextlib.suppress(KeyError): info.display = jsonData["display"]["enabled"]
+    with contextlib.suppress(KeyError): info.displayFull = jsonData["display"]["fullscreen"]
     with contextlib.suppress(KeyError): info.displayType = jsonData["display"]["type"]
     with contextlib.suppress(KeyError): info.displayCard = jsonData["display"]["card"]
     with contextlib.suppress(KeyError): info.unknown = jsonData["additionalOptions"]
