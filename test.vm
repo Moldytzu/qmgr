@@ -4,7 +4,7 @@
         "capacity":"8G"
     },
     "cpu": {
-        "cpus":1,
+        "count":1,
         "cores":1,
         "threads":1,
         "arch":"x86_64",

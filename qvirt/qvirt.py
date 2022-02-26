@@ -16,14 +16,25 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
-import sys,json,dataclasses
+import sys,json,dataclasses,contextlib
 
 @dataclasses.dataclass
 class VMInfo:
     name: str
+    memoryCapacity: str
+    cpuCount: int
+    cpuCores: int
+    cpuThreads: int
+    cpuHpet: int
+    cpuAcpi: int
+    cpuArch: str
+    cpuModel: str
 
 def startVM(vminfo: VMInfo):
-    print(f"Starting {vminfo.name}")
+    print(f"Starting {vminfo.name}") # print starting message
+
+    command = f"qemu-system-{vminfo.cpuArch}"
+    print(command)
 
 def checkSignature(jsonData: object):
     if("signature" in jsonData):
@@ -37,10 +48,28 @@ def getJSON(filename: str):
     return data # return it
 
 def parseJSON(jsonData: object):
-    info = VMInfo("Untitled")
+    info = VMInfo( # specify default information
+        "Untitled", # name
+        "128M", # memory capacity
+        1, # cpu count
+        1, # cpu cores
+        1, # cpu threads
+        0, # cpu hpet
+        1, # cpu acpi
+        "x86_64", # cpu arch
+        "base", # cpu model
+        ) 
 
     # parse all json data into a class
-    if("name" in jsonData): info.name = jsonData["name"]
+    with contextlib.suppress(AttributeError): info.name = jsonData["name"]
+    with contextlib.suppress(AttributeError): info.memoryCapacity = jsonData["memory"]["capacity"]
+    with contextlib.suppress(AttributeError): info.cpuCount = jsonData["cpu"]["count"]
+    with contextlib.suppress(AttributeError): info.cpuCores = jsonData["cpu"]["cores"]
+    with contextlib.suppress(AttributeError): info.cpuThreads = jsonData["cpu"]["threads"]
+    with contextlib.suppress(AttributeError): info.cpuArch = jsonData["cpu"]["arch"]
+    with contextlib.suppress(AttributeError): info.cpuModel = jsonData["cpu"]["model"]
+    with contextlib.suppress(AttributeError): info.cpuHpet = jsonData["cpu"]["hpet"]
+    with contextlib.suppress(AttributeError): info.cpuAcpi = jsonData["cpu"]["acpi"]
 
     return info
 
