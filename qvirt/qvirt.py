@@ -16,7 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
-import sys,json,dataclasses,subprocess
+import sys,json,dataclasses,subprocess,pickle,codecs
 from contextlib import suppress
 
 @dataclasses.dataclass
@@ -138,10 +138,12 @@ if __name__ == "__main__":
         assert checkSignature(jsonData), "failed to check signature"
         startVM(parseJSON(jsonData))
     elif(sys.argv[1] == "create"):
-        assert len(sys.argv) == 4, f"Usage python3 {sys.argv[0]} create <name> <virtual machine configuration file>" # display usage
+        assert len(sys.argv) == 4 or len(sys.argv) == 5, f"Usage python3 {sys.argv[0]} create <name> <virtual machine configuration file> [pickle serialized VMInfo]" # display usage
         info = VMInfo()
+        with suppress(IndexError): info = pickle.loads(codecs.decode(sys.argv[4].encode(), "hex")) # load pickle data from string
         info.name = sys.argv[2]
-        print(f"Writing {info} to {sys.argv[3]}")
+        encoded = codecs.encode(pickle.dumps(info),"hex").decode().replace("\n","")
+        print(f"Writing {encoded} to {sys.argv[3]}")
         f = open(sys.argv[3],"w")
         f.write('''{"name": "%s","memory": {"capacity":"%s"},"cpu": {"count":%d,"cores":%d,"threads":%d,"arch":"%s","model":"%s","hpet":%d,"acpi":%d},"drives": {},"machine": {"type": "%s","accelerator": "%s"},"bios": {"bootOrder": "%s","bootMenu": %d,"file": "%s"},"devices": [],"usb": {"enabled": %d},"display": {"enabled": %d,"type": "%s","card": "%s","fullscreen": %d},"additionalOptions": "%s","signature": "qvirt"}
         ''' % (info.name,info.memoryCapacity,info.cpuCount,info.cpuCores,info.cpuThreads,info.cpuArch,info.cpuModel,info.cpuHpet,info.cpuAcpi,info.machineType,info.machineAccelerator,info.biosBootOrder,info.biosBootMenu,info.biosFile,info.usb,info.display,info.displayType,info.displayCard,info.displayFull,info.unknown))
