@@ -1,0 +1,2 @@
+pygubu
+pygubu-designer

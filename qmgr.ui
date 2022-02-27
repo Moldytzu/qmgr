@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.2">
+  <object class="tk.Toplevel" id="window">
+    <property name="width">600</property>
+    <property name="height">800</property>
+    <property name="geometry">600x800</property>
+    <property name="maxsize">600|800</property>
+    <property name="minsize">600|800</property>
+    <property name="title" translatable="yes">qmgr - qemu manager</property>
+  </object>
+</interface>
