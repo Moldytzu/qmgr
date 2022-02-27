@@ -150,7 +150,11 @@ def parseJSON(jsonData: object):
     return info
 
 if __name__ == "__main__":
-    assert len(sys.argv) != 3, f"Usage: python3 {sys.argv[0]} <path to vm config>" # display usage if there isn't any vm config supplied or if there are more options
-    jsonData = getJSON(sys.argv[1]) # config file path is the first argument
-    assert checkSignature(jsonData), "failed to check signature"
-    startVM(parseJSON(jsonData))
+    usageTxt = f"Usage: python3 {sys.argv[0]} <run> [additional arguments]"
+    assert len(sys.argv) > 1, usageTxt  # display usage
+    assert sys.argv[1] == "run", usageTxt # display usage, again
+    if(sys.argv[1] == "run"):
+        assert len(sys.argv) == 3, f"Usage python3 {sys.argv[0]} run <virtual machine configuration file>" # display usage
+        jsonData = getJSON(sys.argv[2]) # config file path is the first argument
+        assert checkSignature(jsonData), "failed to check signature"
+        startVM(parseJSON(jsonData))
