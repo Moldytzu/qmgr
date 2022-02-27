@@ -16,7 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
+from genericpath import exists
 import pathlib,pygubu,glob
+from tkinter import messagebox
 import tkinter as tk
 from qvirt.vm import *
 
@@ -29,15 +31,22 @@ class MainWindow:
         builder.add_resource_path(PROJECT_PATH)
         builder.add_from_file(PROJECT_UI) # load UI
         self.window = builder.get_object('window') # get main window
+        self.newdialog = builder.get_object('newDialog') # get dialog
         self.vmTree = builder.get_object('vmTree') # get tree
         self.vmName = builder.get_object('vmName') # get name
         self.startButton = builder.get_object('startButton') # get start
         self.modifyButton = builder.get_object('modifyButton') # get modify
         self.deleteButton = builder.get_object('deleteButton') # get delete
+        self.newButton = builder.get_object('newButton') # get new
+        self.okButton = builder.get_object('okButton') # get ok
+        self.nameEntry = builder.get_object('name') # name entry
         builder.connect_callbacks(self) # connect callbacks
 
         self.selected = []
         self.startButton.config(command = self.startVM)
+        self.newButton.config(command = self.newVM)
+        self.okButton.config(command = self.doNewVM)
+        self.newdialog.withdraw() # hide new dialog
 
         # populate tree view
         self.populateTree()
@@ -47,7 +56,9 @@ class MainWindow:
         self.vmTree.delete(*self.vmTree.get_children()) # delete all items first
         self.vmTree['columns']=("Name","Path") # set columns
         self.vmTree.column("#0", width=0, stretch=tk.NO) # hide first column
-        vms = glob.glob(f"{PROJECT_PATH}/*.vm") # get all vm configs
+        self.vmTree.column("Name", width=100, stretch=tk.NO) # hide first column
+        self.vmTree.column("Path", width=500, stretch=tk.NO) # hide first column
+        vms = glob.glob(f"{PROJECT_PATH}/vms/*.vm") # get all vm configs
         for vm in vms:
             jsonData = getJSON(vm)
             if(not checkSignature(jsonData)): continue
@@ -66,6 +77,21 @@ class MainWindow:
         info = parseJSON(getJSON(self.selected[1])) # get info from the vm
         startVM(info)
         self.window.deiconify()
+
+    def newVM(self):
+        self.newdialog.deiconify()
+    
+    def doNewVM(self):
+        fname = f"./vms/{self.nameEntry.get()}.vm"
+        if(exists(fname)):
+            messagebox.showinfo("qmgr",f"Can't create {fname}. A machine with that filename already exists.") # don't overwrite
+            return # return
+        info = VMInfo()
+        info.name = self.nameEntry.get() # set name
+        exportInfo(info,fname)
+        self.populateTree() # refresh tree
+        self.nameEntry.delete(0, tk.END) # delete text from extry
+        self.newdialog.withdraw() # hide the dialog
 
     def run(self):
         self.window.mainloop() # run main loop

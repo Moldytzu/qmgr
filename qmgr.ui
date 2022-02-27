@@ -40,7 +40,7 @@
             <property name="justify">center</property>
             <property name="state">normal</property>
             <property name="text" translatable="yes">qmgr</property>
-            <property name="width">25</property>
+            <property name="width">18</property>
             <layout manager="pack">
               <property name="anchor">n</property>
               <property name="padx">10</property>
@@ -76,6 +76,46 @@
             </layout>
           </object>
         </child>
+        <child>
+          <object class="ttk.Button" id="newButton">
+            <property name="text" translatable="yes">New</property>
+            <layout manager="pack">
+              <property name="padx">10</property>
+              <property name="side">left</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="tk.Toplevel" id="newDialog">
+    <property name="geometry">400x50</property>
+    <property name="height">50</property>
+    <property name="maxsize">400|50</property>
+    <property name="minsize">400|50</property>
+    <property name="title" translatable="yes">New virtual machine</property>
+    <property name="width">400</property>
+    <child>
+      <object class="ttk.Button" id="okButton">
+        <property name="text" translatable="yes">New</property>
+        <layout manager="pack">
+          <property name="anchor">n</property>
+          <property name="padx">10</property>
+          <property name="pady">10</property>
+          <property name="side">left</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="name">
+        <property name="font">{arial} 16 {}</property>
+        <property name="width">50</property>
+        <layout manager="pack">
+          <property name="anchor">n</property>
+          <property name="padx">10</property>
+          <property name="pady">10</property>
+          <property name="side">left</property>
+        </layout>
       </object>
     </child>
   </object>

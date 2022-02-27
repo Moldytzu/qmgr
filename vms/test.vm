@@ -1,0 +1,2 @@
+{"name": "Untitled","memory": {"capacity":"128M"},"cpu": {"count":1,"cores":1,"threads":1,"arch":"x86_64","model":"base","hpet":0,"acpi":1},"drives": {},"machine": {"type": "pc","accelerator": "tcg"},"bios": {"bootOrder": "c","bootMenu": 1,"file": ""},"devices": [],"usb": {"enabled": 0},"display": {"enabled": 1,"type": "gtk","card": "std","fullscreen": 0},"additionalOptions": "","signature": "qvirt"}
+        
