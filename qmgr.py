@@ -16,10 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
-import pathlib
+import pathlib,pygubu,glob
 import tkinter as tk
-import tkinter.ttk as ttk
-import pygubu
+from qvirt.vm import *
 
 PROJECT_PATH = pathlib.Path(__file__).parent
 PROJECT_UI = PROJECT_PATH / "qmgr.ui"
@@ -36,6 +35,19 @@ class MainWindow:
         self.modifyButton = builder.get_object('modifyButton') # get modify
         self.deleteButton = builder.get_object('deleteButton') # get delete
         builder.connect_callbacks(self) # connect callbacks
+
+        # populate tree view
+        self.populateTree()
+
+    def populateTree(self):
+        self.vmTree['columns']=("Name","Path") # set columns
+        self.vmTree.column("#0", width=0, stretch=tk.NO) # hide first column
+        vms = glob.glob(f"{PROJECT_PATH}/*.vm") # get all vm configs
+        for vm in vms:
+            jsonData = getJSON(vm)
+            if(not checkSignature(jsonData)): continue
+            info = parseJSON(jsonData) # get info from each config
+            self.vmTree.insert('',tk.END,values=(info.name,vm)) # insert data
 
     def run(self):
         self.window.mainloop() # run main loop

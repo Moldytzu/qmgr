@@ -10,6 +10,7 @@
     <child>
       <object class="ttk.Treeview" id="vmTree">
         <property name="selectmode">extended</property>
+        <property name="show">tree</property>
         <layout manager="pack">
           <property name="anchor">center</property>
           <property name="expand">true</property>
