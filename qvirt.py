@@ -16,42 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
-import sys,subprocess
-from .vm import *
-
-def startVM(vminfo: VMInfo):
-    print(f"Starting \"{vminfo.name}\" virtual machine") # print starting message
-
-    command = f"qemu-system-{vminfo.cpuArch} " # create the command we will launch
-    command += f"-m {vminfo.memoryCapacity} " # append memory information
-    command += f"-smp maxcpus={vminfo.cpuCores * vminfo.cpuCount * vminfo.cpuThreads},sockets={vminfo.cpuCount},cores={vminfo.cpuCores},threads={vminfo.cpuThreads} " # append cpu topology
-    command += f"-cpu {vminfo.cpuModel} " # append cpu model
-    command += f"-M type={vminfo.machineType},accel={vminfo.machineAccelerator} " # append machine info
-    command += f"-boot order={vminfo.biosBootOrder},menu=" # boot menu and boot order
-    command += "on " if vminfo.biosBootMenu == 1 else "off " 
-
-    if(vminfo.display == 1):
-        command += f"-display {vminfo.displayType} " if not vminfo.displayFull else f"-display {vminfo.displayType},window-close=off " # display type
-        command += f"-vga {vminfo.displayCard} " # video card
-        if(vminfo.displayFull): command += f"-full-screen " # full screen
-    else:
-        command += f"-nographic " # no graphics
-
-    for drive in vminfo.drives:
-        command += f"-drive file={drive.file}," # drive file
-        command += f"media=cdrom," if drive.type == "dvd" else f"media=disk," # drive type
-        command += f"if={drive.bus} " # drive bus
-    
-    for device in vminfo.devices: command += f"-device {device} " # devices
-    if(vminfo.usb == 1): command += f"-usb " # usb
-    if(vminfo.biosFile != ""): command += f"-bios {vminfo.biosFile} " # bios file
-    if(not vminfo.cpuHpet): command += f"-no-hpet " # append no hpet if hpet is disabled
-    if(not vminfo.cpuAcpi): command += f"-no-acpi " # append no acpi if acpi is disabled 
-    command += f"{vminfo.unknown}" # append additional/unknown options
-    
-    print(f"Running command: {command}")
-
-    subprocess.run(command, shell=True, check=True)
+from qvirt.vm import *
 
 if __name__ == "__main__":
     usageTxt = f"Usage: python3 {sys.argv[0]} <run|create> [additional arguments]"
