@@ -17,9 +17,8 @@
 '''
 
 import pathlib,pygubu,glob
-from select import select
 import tkinter as tk
-from qvirt.vm import *
+from qvirt.qvirt import *
 
 PROJECT_PATH = pathlib.Path(__file__).parent
 PROJECT_UI = PROJECT_PATH / "qmgr.ui"
@@ -38,6 +37,7 @@ class MainWindow:
         builder.connect_callbacks(self) # connect callbacks
 
         self.selected = []
+        self.startButton.config(command = self.startVM)
 
         # populate tree view
         self.populateTree()
@@ -59,6 +59,13 @@ class MainWindow:
         if(item["values"] == ""): return # skip if not clicked on an item
         self.selected = item["values"]
         self.vmName.config(text = item["values"][0])
+
+    def startVM(self):
+        if(self.selected == []): return # skip if no item is selected
+        self.window.withdraw()
+        info = parseJSON(getJSON(self.selected[1])) # get info from the vm
+        startVM(info)
+        self.window.deiconify()
 
     def run(self):
         self.window.mainloop() # run main loop

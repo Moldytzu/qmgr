@@ -17,7 +17,7 @@
 '''
 
 import sys,subprocess
-from vm import *
+from .vm import *
 
 def startVM(vminfo: VMInfo):
     print(f"Starting \"{vminfo.name}\" virtual machine") # print starting message
