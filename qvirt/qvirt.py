@@ -26,29 +26,29 @@ class Drive:
     bus: str
 
 @dataclasses.dataclass
-class VMInfo:
-    name: str
-    memoryCapacity: str
-    cpuCount: int
-    cpuCores: int
-    cpuThreads: int
-    cpuHpet: int
-    cpuAcpi: int
-    cpuArch: str
-    cpuModel: str
-    machineType: str
-    machineAccelerator: str
-    biosBootOrder: str
-    biosBootMenu: int
-    biosFile: str
-    devices: list
-    usb: int
-    display: int
-    displayFull: int
-    displayType: str
-    displayCard: str
-    drives: list
-    unknown: str
+class VMInfo():
+    name: str = "Untitled" # vm name
+    memoryCapacity: str = "128M" # memory capacity
+    cpuCount: int = 1 # cpu sockets/count
+    cpuCores: int = 1 # cpu cores
+    cpuThreads: int = 1 # cpu threads
+    cpuHpet: int = 0 # hpet
+    cpuAcpi: int = 1 # acpi
+    cpuArch: str = "x86_64" # arch
+    cpuModel: str = "base" # model
+    machineType: str = "pc" # type
+    machineAccelerator: str = "tcg" # acceleration
+    biosBootOrder: str = "c" # boot order
+    biosBootMenu: int = 1 # boot menu
+    biosFile: str = "" # bios
+    devices: list = dataclasses.field(default_factory=list) # devices
+    usb: int = 0 # usb
+    display: int = 1 # display
+    displayFull: int = 0 # full screen
+    displayType: str = "gtk" # display framework
+    displayCard: str = "std" # graphics card
+    drives: list = dataclasses.field(default_factory=list) # drives
+    unknown: str = "" # additional
 
 def startVM(vminfo: VMInfo):
     print(f"Starting \"{vminfo.name}\" virtual machine") # print starting message
@@ -92,30 +92,7 @@ def getJSON(filename: str):
     return json.loads(file.read()) # read as json data
 
 def parseJSON(jsonData: object):
-    info = VMInfo( # specify default information
-        "Untitled", # name
-        "128M", # memory capacity
-        1, # cpu count
-        1, # cpu cores
-        1, # cpu threads
-        0, # cpu hpet
-        1, # cpu acpi
-        "x86_64", # cpu arch
-        "base", # cpu model
-        "pc", # machine type
-        "tcg", # machine accelerator
-        "c", # boot order
-        0, # boot menu
-        "", # bios file
-        list(), # devices
-        0, # usb
-        1, # display
-        0, # fullscreen
-        "sdl", # display type
-        "std", # display card
-        list(), # drives
-        "", # unknown
-        ) 
+    info = VMInfo() # default info already is set
 
     # parse all json data into a class
     with suppress(KeyError): info.name = jsonData["name"]
@@ -150,11 +127,21 @@ def parseJSON(jsonData: object):
     return info
 
 if __name__ == "__main__":
-    usageTxt = f"Usage: python3 {sys.argv[0]} <run> [additional arguments]"
+    usageTxt = f"Usage: python3 {sys.argv[0]} <run|create> [additional arguments]"
+    
     assert len(sys.argv) > 1, usageTxt  # display usage
-    assert sys.argv[1] == "run", usageTxt # display usage, again
+    assert sys.argv[1] == "run" or sys.argv[1] == "create", usageTxt # display usage, again
+
     if(sys.argv[1] == "run"):
         assert len(sys.argv) == 3, f"Usage python3 {sys.argv[0]} run <virtual machine configuration file>" # display usage
         jsonData = getJSON(sys.argv[2]) # config file path is the first argument
         assert checkSignature(jsonData), "failed to check signature"
         startVM(parseJSON(jsonData))
+    elif(sys.argv[1] == "create"):
+        assert len(sys.argv) == 4, f"Usage python3 {sys.argv[0]} create <name> <virtual machine configuration file>" # display usage
+        info = VMInfo()
+        info.name = sys.argv[2]
+        print(f"Writing {info} to {sys.argv[3]}")
+        f = open(sys.argv[3],"w")
+        f.write('''{"name": "%s","memory": {"capacity":"%s"},"cpu": {"count":%d,"cores":%d,"threads":%d,"arch":"%s","model":"%s","hpet":%d,"acpi":%d},"drives": {},"machine": {"type": "%s","accelerator": "%s"},"bios": {"bootOrder": "%s","bootMenu": %d,"file": "%s"},"devices": [],"usb": {"enabled": %d},"display": {"enabled": %d,"type": "%s","card": "%s","fullscreen": %d},"additionalOptions": "%s","signature": "qvirt"}
+        ''' % (info.name,info.memoryCapacity,info.cpuCount,info.cpuCores,info.cpuThreads,info.cpuArch,info.cpuModel,info.cpuHpet,info.cpuAcpi,info.machineType,info.machineAccelerator,info.biosBootOrder,info.biosBootMenu,info.biosFile,info.usb,info.display,info.displayType,info.displayCard,info.displayFull,info.unknown))
