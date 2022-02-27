@@ -119,4 +119,387 @@
       </object>
     </child>
   </object>
+  <object class="tk.Toplevel" id="modifyDialog">
+    <property name="geometry">800x800</property>
+    <property name="height">800</property>
+    <property name="maxsize">800|800</property>
+    <property name="minsize">800|800</property>
+    <property name="takefocus">false</property>
+    <property name="title" translatable="yes">Modify virtual machine</property>
+    <property name="width">800</property>
+    <child>
+      <object class="ttk.Button" id="cancelButton">
+        <property name="text" translatable="yes">Cancel</property>
+        <layout manager="place">
+          <property name="anchor">sw</property>
+          <property name="relx">0.01</property>
+          <property name="rely">0.99</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="saveButton">
+        <property name="text" translatable="yes">Save</property>
+        <layout manager="place">
+          <property name="anchor">se</property>
+          <property name="relx">0.99</property>
+          <property name="rely">0.99</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="memoryCapacityLabel">
+        <property name="text" translatable="yes">Memory Capacity (MB)</property>
+        <layout manager="place">
+          <property name="anchor">sw</property>
+          <property name="relx">0.01</property>
+          <property name="rely">0.95</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="memoryCapacityEntry">
+        <property name="width">107</property>
+        <layout manager="place">
+          <property name="anchor">sw</property>
+          <property name="relx">0.18</property>
+          <property name="rely">0.952</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="cpuCount">
+        <property name="text" translatable="yes">CPUs</property>
+        <layout manager="place">
+          <property name="anchor">sw</property>
+          <property name="relx">0.01</property>
+          <property name="rely">0.92</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="cpuCountEntry">
+        <layout manager="place">
+          <property name="anchor">sw</property>
+          <property name="relx">0.06</property>
+          <property name="rely">0.923</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="cpuCores">
+        <property name="text" translatable="yes">CPU Cores</property>
+        <layout manager="place">
+          <property name="anchor">sw</property>
+          <property name="relx">0.23</property>
+          <property name="rely">0.92</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="cpuCoresEntry">
+        <layout manager="place">
+          <property name="anchor">sw</property>
+          <property name="relx">0.32</property>
+          <property name="rely">0.923</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label5">
+        <property name="text" translatable="yes">label5</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="entry5">
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label6">
+        <property name="text" translatable="yes">label6</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="entry6">
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label7">
+        <property name="text" translatable="yes">label7</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="entry7">
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label8">
+        <property name="text" translatable="yes">label8</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="entry8">
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label9">
+        <property name="text" translatable="yes">label9</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="entry9">
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label10">
+        <property name="text" translatable="yes">label10</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="entry10">
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label11">
+        <property name="text" translatable="yes">label11</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="entry11">
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label12">
+        <property name="text" translatable="yes">label12</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="entry12">
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Checkbutton" id="checkbutton1">
+        <property name="text" translatable="yes">checkbutton1</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label13">
+        <property name="text" translatable="yes">label13</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="entry13">
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Treeview" id="treeview1">
+        <property name="selectmode">extended</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="bordermode">outside</property>
+          <property name="relx">0.0</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Checkbutton" id="checkbutton2">
+        <property name="text" translatable="yes">checkbutton2</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Checkbutton" id="checkbutton3">
+        <property name="text" translatable="yes">checkbutton3</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Checkbutton" id="checkbutton4">
+        <property name="text" translatable="yes">checkbutton4</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label14">
+        <property name="text" translatable="yes">label14</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="entry14">
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label15">
+        <property name="text" translatable="yes">label15</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="entry15">
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label16">
+        <property name="text" translatable="yes">label16</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="entry16">
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </layout>
+      </object>
+    </child>
+  </object>
 </interface>

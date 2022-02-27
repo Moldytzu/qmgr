@@ -33,6 +33,7 @@ class MainWindow:
         builder.add_from_file(PROJECT_UI) # load UI
         self.window = builder.get_object('window') # get main window
         self.newdialog = builder.get_object('newDialog') # get dialog
+        self.modifydialog = builder.get_object('modifyDialog') # get modify dialog
         self.vmTree = builder.get_object('vmTree') # get tree
         self.vmName = builder.get_object('vmName') # get name
         self.startButton = builder.get_object('startButton') # get start
