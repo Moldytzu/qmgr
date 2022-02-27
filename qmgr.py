@@ -17,6 +17,7 @@
 '''
 
 from genericpath import exists
+import os
 import pathlib,pygubu,glob
 from tkinter import messagebox
 import tkinter as tk
@@ -46,6 +47,7 @@ class MainWindow:
         self.startButton.config(command = self.startVM)
         self.newButton.config(command = self.newVM)
         self.okButton.config(command = self.doNewVM)
+        self.deleteButton.config(command = self.deleteVM)
         self.newdialog.withdraw() # hide new dialog
 
         # populate tree view
@@ -80,6 +82,12 @@ class MainWindow:
 
     def newVM(self):
         self.newdialog.deiconify()
+
+    def deleteVM(self):
+        if(self.selected == []): return # skip if no item is selected
+        if(messagebox.askquestion("qmgr","Are you sure you want to delete this virtual machine?") == "no"): return
+        os.remove(self.selected[1])
+        self.populateTree() # refresh tree
     
     def doNewVM(self):
         fname = f"./vms/{self.nameEntry.get()}.vm"
