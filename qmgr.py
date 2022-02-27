@@ -17,6 +17,7 @@
 '''
 
 import pathlib,pygubu,glob
+from select import select
 import tkinter as tk
 from qvirt.vm import *
 
@@ -36,10 +37,14 @@ class MainWindow:
         self.deleteButton = builder.get_object('deleteButton') # get delete
         builder.connect_callbacks(self) # connect callbacks
 
+        self.selected = []
+
         # populate tree view
         self.populateTree()
 
     def populateTree(self):
+        self.vmTree.bind("<ButtonRelease-1>",self.onItemSelect)
+        self.vmTree.delete(*self.vmTree.get_children()) # delete all items first
         self.vmTree['columns']=("Name","Path") # set columns
         self.vmTree.column("#0", width=0, stretch=tk.NO) # hide first column
         vms = glob.glob(f"{PROJECT_PATH}/*.vm") # get all vm configs
@@ -48,6 +53,12 @@ class MainWindow:
             if(not checkSignature(jsonData)): continue
             info = parseJSON(jsonData) # get info from each config
             self.vmTree.insert('',tk.END,values=(info.name,vm)) # insert data
+
+    def onItemSelect(self, event):
+        item = self.vmTree.item(self.vmTree.focus())
+        if(item["values"] == ""): return # skip if not clicked on an item
+        self.selected = item["values"]
+        self.vmName.config(text = item["values"][0])
 
     def run(self):
         self.window.mainloop() # run main loop

@@ -9,7 +9,7 @@
     <property name="width">600</property>
     <child>
       <object class="ttk.Treeview" id="vmTree">
-        <property name="selectmode">extended</property>
+        <property name="selectmode">browse</property>
         <property name="show">tree</property>
         <layout manager="pack">
           <property name="anchor">center</property>
