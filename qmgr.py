@@ -29,7 +29,12 @@ class MainWindow:
         self.builder = builder = pygubu.Builder() # build
         builder.add_resource_path(PROJECT_PATH)
         builder.add_from_file(PROJECT_UI) # load UI
-        self.window = builder.get_object('window', master) # get main window
+        self.window = builder.get_object('window') # get main window
+        self.vmTree = builder.get_object('vmTree') # get tree
+        self.vmName = builder.get_object('vmName') # get name
+        self.startButton = builder.get_object('startButton') # get start
+        self.modifyButton = builder.get_object('modifyButton') # get modify
+        self.deleteButton = builder.get_object('deleteButton') # get delete
         builder.connect_callbacks(self) # connect callbacks
 
     def run(self):
